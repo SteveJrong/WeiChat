@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        ">
+
+	<!-- 设置要扫描的控制器类所在的包，以注入这些用注解标注的类 -->
+	<context:component-scan base-package="com.sj.mvc" />
+	
+	<!-- 设置注解驱动 -->
+	<mvc:annotation-driven/>
+
+	<bean class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+		<property name="basename" value="spring-views"></property>
+	</bean> 
+	
+	<!-- 配置适用于FreeMarker的视图 -->
+	<!-- 定义FreeMarker配置器，并设置一些属性 -->
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		
+		<!-- 设置模板应该从哪一个目录下载入 -->
+		<property name="templateLoaderPath" value="/WEB-INF/view/"></property>
+		
+		<!-- 模板属性设置 -->
+		<property name="freemarkerSettings">
+			<props>
+				<!-- 模板自动刷新间隔 -->
+				<prop key="template_update_delay">0</prop>
+				
+				<!-- 模板默认编码格式 -->
+				<prop key="default_encoding">gbk</prop>
+				
+				<!-- 模板数字格式化格式 -->
+				<prop key="number_format">0.######</prop>
+				
+				<!-- 模板日期格式化格式 -->
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				
+				<!-- 开启传统模式兼容性支持 -->
+				<prop key="classic_compatible">true</prop>
+				
+				<!-- 模板异常句柄设置 -->
+				<prop key="template_exception_handler">ignore</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 定义一个FreeMarker视图解析器，并设置一些属性 -->
+	<bean id="freeMarkerViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="cache" value="true"></property>
+		
+		<!-- 配置模板的路径前缀 -->
+		<property name="prefix" value="/WEB-INF/view/"></property>
+		
+		<!-- 配置模板的路径后缀 -->
+		<property name="suffix" value=".ftl"></property>
+		
+		<!-- 配置模板的编码格式 -->
+		<property name="contentType" value="text/html;charset=GBK"></property>
+		<property name="requestContextAttribute" value="request"></property>
+		<property name="exposeSpringMacroHelpers" value="true"></property>
+		<property name="exposeRequestAttributes" value="true"></property>
+		<property name="exposeSessionAttributes" value="true"></property>
+	</bean>
+	
+	
+	<!-- 配置适用于JSP页面的视图 -->
+	<!-- 定义一个视图解析器，将Controller处理的结果与视图相匹配 -->
+	 <bean id="internalResourceViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		
+		<!-- 针对某些视图使用了JSTL标签，所以需要JstlView来支持呈现 -->
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		
+		<!-- 视图路径的前缀 -->
+		<property name="prefix" value="/WEB-INF/view/" />
+		
+		<!-- 视图路径的后缀 -->
+		<property name="suffix" value=".jsp" />
+	</bean> 
+</beans>
