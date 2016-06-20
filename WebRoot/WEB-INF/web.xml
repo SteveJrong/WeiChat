@@ -18,6 +18,6 @@
 	<!-- 配置servlet映射 -->
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
-		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.jhtml</url-pattern>
 	</servlet-mapping>
 </web-app>
